@@ -1,0 +1,206 @@
+class Vector():
+
+
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+    def __abs__(self):
+        return (self.x**2 + self.y**2 + self.z**2) ** 0.5
+    def __add__(self, other):
+        if isinstance(other, Vector):
+            new_x = self.x + other.x
+            new_y = self.y + other.y
+            new_z = self.z + other.z
+        elif isinstance(other, int) or isinstance(other, float):
+            new_x = self.x + other
+            new_y = self.y + other
+            new_z = self.z + other
+        return Vector(new_x, new_y, new_z)
+    def __radd__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return 'no solution'
+    def __sub__(self, other):
+        if isinstance(other, Vector):
+            new_x = self.x - other.x
+            new_y = self.y - other.y
+            new_z = self.z - other.z
+        elif isinstance(other, int) or isinstance(other, float):
+            new_x = self.x - other
+            new_y = self.y - other
+            new_z = self.z - other
+        return Vector(new_x, new_y, new_z)
+    def __rsub__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return 'no solution'
+    def __mul__(self, other):
+        if isinstance(other, Vector):
+            return Vector(self.x * other.x, self.y * other.y, self.z * other.z)
+        elif isinstance(other, float) or isinstance(other, int):
+            return Vector(self.x * other, self.y * other, self.z * other)
+    def __rmul__(self, other):
+        if isinstance(other, Vector):
+            return (other.x * self.x) + (other.y + self.y) + (other.z + self.z)
+        elif isinstance(other, float) or isinstance(other, int):
+            return Vector(other * self.x, other * self.y, other * self.z)
+    def __repr__(self):
+        return f'{self.x} {self.y} {self.z}'
+
+
+    def set_x(self,x):
+        self.x = x
+    def set_y(self,y):
+        self.y = y
+    def set_z(self,z):
+        self.z = z
+    def get_x(self):
+        return self.x
+    def get_y(self):
+        return self.y
+    def get_z(self):
+        return self.z
+
+
+
+
+v1 = Vector(0, 3, 4)
+v2 = Vector(3, 4, 0)
+
+
+#def center_of_mass(vectors):
+#    X = []
+#    Y = []
+#    Z = []
+#    for v in vectors:
+#        X.append(v.get_x())
+#        Y.append(v.get_y())
+#        Z.append(v.get_z())
+#    return f'center of mass: {sum(X)/len(X)}, {sum(Y)/len(Y)}, {sum(Z)/len(Z)}'
+#print(center_of_mass(vectors))
+
+
+
+
+
+
+
+print(v2 * v1)
+print(v2 * 9)
+print(v2 + 1)
+print(v2 - 1)
+print(v2-v1)
+print(v2 + v1)
+print(1 + v2)
+print()
+
+class Vectorok():
+    def __init__(self, s):
+        self.s = s
+    def __abs__(self):
+        x = float(self.s[0])
+        y = float(self.s[2])
+        z = float(self.s[4])
+        return (x**2 + y**2 + z**2) ** 0.5
+    def __add__(self, other):
+        x = float(self.s[0])
+        y = float(self.s[2])
+        z = float(self.s[4])
+        if isinstance(other, Vectorok):
+            new_x = x + float(other.s[0])
+            new_y = y + float(other.s[2])
+            new_z = z + float(other.s[4])
+
+        elif isinstance(other, int) or isinstance(other, float):
+            new_x = x + other
+            new_y = y + other
+            new_z = z + other
+        return Vector(new_x, new_y, new_z)
+    def __radd__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return 'no solution'
+    def __sub__(self, other):
+        x = float(self.s[0])
+        y = float(self.s[2])
+        z = float(self.s[4])
+        if isinstance(other, Vectorok):
+            new_x = x - float(other.s[0])
+            new_y = y - float(other.s[2])
+            new_z = z - float(other.s[4])
+
+        elif isinstance(other, int) or isinstance(other, float):
+            new_x = x - other
+            new_y = y - other
+            new_z = z - other
+        return Vector(new_x, new_y, new_z)
+    def __rsub__(self, other):
+        if isinstance(other, int) or isinstance(other, float):
+            return 'no solution'
+    def __mul__(self, other):
+        x = float(self.s[0])
+        y = float(self.s[2])
+        z = float(self.s[4])
+        if isinstance(other, Vectorok):
+            return f'{x * float(other.s[0]) + y * float(other.s[2]) + z * float(other.s[4])}'
+        elif isinstance(other, float) or isinstance(other, int):
+            new_x = x * other
+            new_y = y * other
+            new_z = z * other
+            s = f'{new_x} {new_y} {new_z}'
+            return Vectorok(s)
+    def __rmul__(self, other):
+        x = float(self.s[0])
+        y = float(self.s[2])
+        z = float(self.s[4])
+        if isinstance(other, Vectorok):
+            return (float(other.s[0]) * x) + (float(other.s[2]) + y) + (float(other.s[4]) + z)
+        elif isinstance(other, float) or isinstance(other, int):
+            new_x = other * x
+            new_y = other * y
+            new_z = other * z
+            return Vectorok(f'{new_x} {new_y} {new_z}')
+    def __repr__(self):
+        return f'{float(self.s[0])} {float(self.s[2])} {float(self.s[4])}'
+    def get_x(self):
+        return float(self.s[0])
+    def get_y(self):
+        return float(self.s[2])
+    def get_z(self):
+        return  float(self.s[4])
+    def set(self, s):
+        self.s = s
+    def Control(self):
+        assert type(float(self.s[0])) == float
+        assert type(float(self.s[2])) == float
+        assert type(float(self.s[4])) == float
+        return 'OK'
+vct1 = Vectorok('1 2 3')
+vct2 = Vectorok('4 5 6')
+print(vct1.Control())
+print(abs(vct1))
+print(vct1 + vct2)
+print(vct1 + 2)
+print(2 + vct1)
+print(2 - vct2)
+print(vct2 - 3)
+print('скалярное произведение:', vct2 * vct1)
+#print(vct1 * 3)
+#print(4 * vct2)
+
+
+n = int(input())
+vectors = []
+for i in range(n):
+    v = Vectorok('')
+    a = input()
+    v.set(a)
+    vectors.append(v)
+def center_of_mass(vectors):
+    X = []
+    Y = []
+    Z = []
+    for v in vectors:
+        X.append(v.get_x())
+        Y.append(v.get_y())
+        Z.append(v.get_z())
+    return f'center of mass: ({sum(X) / len(X)}, {sum(Y) / len(Y)}, {sum(Z) / len(Z)})'
+print(center_of_mass(vectors))
