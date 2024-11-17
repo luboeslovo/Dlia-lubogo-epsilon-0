@@ -1,3 +1,4 @@
+# здесь не сразу понял что в аргументах вектора должна быть строка, а не 3 цифры, потом создал новый класс Vectorok, там все работает нормально кроме умножений почему-то
 class Vector():
 
 
@@ -61,31 +62,13 @@ class Vector():
         return self.z
 
 
-
-
 v1 = Vector(0, 3, 4)
 v2 = Vector(3, 4, 0)
 
 
-#def center_of_mass(vectors):
-#    X = []
-#    Y = []
-#    Z = []
-#    for v in vectors:
-#        X.append(v.get_x())
-#        Y.append(v.get_y())
-#        Z.append(v.get_z())
-#    return f'center of mass: {sum(X)/len(X)}, {sum(Y)/len(Y)}, {sum(Z)/len(Z)}'
-#print(center_of_mass(vectors))
-
-
-
-
-
-
-
 print(v2 * v1)
 print(v2 * 9)
+print(9 * v2)
 print(v2 + 1)
 print(v2 - 1)
 print(v2-v1)
@@ -145,8 +128,8 @@ class Vectorok():
             new_x = x * other
             new_y = y * other
             new_z = z * other
-            s = f'{new_x} {new_y} {new_z}'
-            return Vectorok(s)
+            s = Vectorok(f'{new_x} {new_y} {new_z}')
+            return s
     def __rmul__(self, other):
         x = float(self.s[0])
         y = float(self.s[2])
@@ -168,24 +151,25 @@ class Vectorok():
         return  float(self.s[4])
     def set(self, s):
         self.s = s
-    def Control(self):
+    def Control(self, s):
         assert type(float(self.s[0])) == float
         assert type(float(self.s[2])) == float
         assert type(float(self.s[4])) == float
         return 'OK'
+
+
 vct1 = Vectorok('1 2 3')
 vct2 = Vectorok('4 5 6')
-print(vct1.Control())
+print(vct1.Control(vct1))
 print(abs(vct1))
 print(vct1 + vct2)
 print(vct1 + 2)
 print(2 + vct1)
 print(2 - vct2)
 print(vct2 - 3)
-print('скалярное произведение:', vct2 * vct1)
-#print(vct1 * 3)
-#print(4 * vct2)
-
+print(vct2 * vct1)
+print(vct1 * 3)
+print(4 * vct2)
 
 n = int(input())
 vectors = []
@@ -204,3 +188,21 @@ def center_of_mass(vectors):
         Z.append(v.get_z())
     return f'center of mass: ({sum(X) / len(X)}, {sum(Y) / len(Y)}, {sum(Z) / len(Z)})'
 print(center_of_mass(vectors))
+def Cos(v1, v2):
+    if isinstance(v1, Vectorok) and isinstance(v2, Vectorok):
+        return float((v1 * v2))/(abs(v1) * abs(v2))
+def Sin(v1, v2):
+    if isinstance(v1, Vectorok) and isinstance(v2, Vectorok):
+        return (1 - (Cos(v1, v2))**2)**0.5
+def Vector_mul(vectors):
+    sin = Sin(vectors[0], vectors[1])
+    a = abs(vectors[0])
+    b = abs(vectors[1])
+    for i in range(len(vectors) - 1):
+        for j in range(i + 1, len(vectors)):
+            if Sin(vectors[i], vectors[j]) > sin:
+                sin = Sin(vectors[i], vectors[j])
+                a = abs(vectors[i])
+                b = abs(vectors[j])
+    return f'maximum area is {a * b * sin}'
+print(Vector_mul(vectors))
