@@ -1,0 +1,213 @@
+gravitational_constant = 6.67408E-11
+"""Гравитационная постоянная Ньютона G"""
+
+
+class Star():
+    def __init__(self, type, m, x, y, Vx, Vy, Fx, Fy, R, color, image):
+        """Тип данных, описывающий звезду.
+            Содержит массу, координаты, скорость звезды,
+            а также визуальный радиус звезды в пикселах и её цвет.
+            """
+
+        self.type = 'star'
+        """Признак объекта звезды"""
+
+        self.m = m
+        """Масса звезды"""
+
+        self.x = x
+        """Координата по оси **x**"""
+
+        self.y = y
+        """Координата по оси **y**"""
+
+        self.Vx = Vx
+        """Скорость по оси **x**"""
+
+        self.Vy = Vy
+        """Скорость по оси **y**"""
+
+        self.Fx = Fx
+        """Сила по оси **x**"""
+
+        self.Fy = Fy
+        """Сила по оси **y**"""
+
+        self.R = R
+        """Радиус звезды"""
+
+        self.color = color
+        """Цвет звезды"""
+
+        self.image = image
+        """Изображение звезды"""
+    def __repr__(self):
+        return f'{self.type}, {self.m}, {self.x}, {self.y}, {self.Vx}, {self.Vy}, {self.Fx}, {self.Fy}, {self.R}, {self.color}, {self.image}'
+    def set_Fx(self, Fx):
+        self.Fx = Fx
+    def set_Fy(self, Fy):
+        self.Fy = Fy
+    def move_space_object(self, dt):
+        """Перемещает тело в соответствии с действующей на него силой.
+
+        Параметры:
+
+        **body** — тело, которое нужно переместить.
+        """
+
+        ax = self.Fx / self.m
+        self.x = self.x + (ax * (dt) ** 2) / 2
+        self.Vx = self.Vx + ax * dt
+        ay = self.Fy / self.m
+        self.y += self.y + (ay * (dt) ** 2) / 2
+        self.Vy += self.Vy + ay * dt
+        '''zhitь ( ͡ಥ ͜ʖ ͡ಥ)'''
+        return f'{self.type} x:{self.x}, y:{self.y}'  # body.Vx, body.Vy
+    def calculate_force(body, space_objects):
+        """Вычисляет силу, действующую на тело.
+
+        Параметры:
+
+        **body** — тело, для которого нужно вычислить дейстующую силу.
+
+        **space_objects** — список объектов, которые воздействуют на тело.
+        """
+
+        body.Fx = body.Fy = 0
+        for obj in space_objects:
+            if (isinstance(obj, Star) or isinstance(obj, Planet)) and body.x != obj.x and body.y != obj.y:
+                Fx = (obj.m * body.m * gravitational_constant) / (obj.x - body.x)**2
+                Fy = (obj.m * body.m * gravitational_constant) / (obj.y - body.y)**2
+                body.set_Fx(Fx)
+                body.set_Fy(Fy)
+        return f'{body.type} Fx: {body.Fx} Fy: {body.Fy} '
+    def angular_velocity(self, body, center_of_mass):
+        pass
+
+
+
+
+class Planet():
+
+    def __init__(self, type, m, x, y, Vx, Vy, Fx, Fy, R, color, image):
+        """Тип данных, описывающий планету.
+            Содержит массу, координаты, скорость планеты,
+            а также визуальный радиус звезды в пикселах и её цвет.
+            """
+
+        self.type = 'planet'
+        """Признак объекта планеты"""
+
+        self.m = m
+        """Масса планеты"""
+
+        self.x = x
+        """Координата по оси **x**"""
+
+        self.y = y
+        """Координата по оси **y**"""
+
+        self.Vx = Vx
+        """Скорость по оси **x**"""
+
+        self.Vy = Vy
+        """Скорость по оси **y**"""
+
+        self.Fx = Fx
+        """Сила по оси **x**"""
+
+        self.Fy = Fy
+        """Сила по оси **y**"""
+
+        self.R = R
+        """Радиус планеты"""
+
+        self.color = color
+        """Цвет планеты"""
+
+        self.image = image
+        """Изображение планеты"""
+    def set_Fx(self, Fx):
+        self.Fx = Fx
+    def set_Fy(self, Fy):
+        self.Fy = Fy
+
+    def __repr__(self):
+        return f'{self.type}, {self.m}, {self.x}, {self.y}, {self.Vx}, {self.Vy}, {self.Fx}, {self.Fy}, {self.R}, {self.color}, {self.image}'
+    def move_space_object(self, dt):
+        """Перемещает тело в соответствии с действующей на него силой.
+
+        Параметры:
+
+        **body** — тело, которое нужно переместить.
+        """
+
+        ax = self.Fx / self.m
+        self.x = self.x + (ax * (dt) ** 2) / 2
+        self.Vx = self.Vx + ax * dt
+        ay = self.Fy / self.m
+        self.y += self.y + (ay * (dt) ** 2) / 2
+        self.Vy += self.Vy + ay * dt
+        '''zhitь ( ͡ಥ ͜ʖ ͡ಥ)'''
+        return f'{self.type} x:{self.x}, y:{self.y}'  # body.Vx, body.Vy
+
+    def calculate_force(body, space_objects):
+        """Вычисляет силу, действующую на тело.
+
+        Параметры:
+
+        **body** — тело, для которого нужно вычислить дейстующую силу.
+
+        **space_objects** — список объектов, которые воздействуют на тело.
+        """
+
+        body.Fx = body.Fy = 0
+        for obj in space_objects:
+            if (isinstance(obj, Star) or isinstance(obj, Planet)) and body.x != obj.x and body.y != obj.y:
+                Fx = (obj.m * body.m * gravitational_constant) / (obj.x - body.x) ** 2
+                Fy = (obj.m * body.m * gravitational_constant) / (obj.y - body.y) ** 2
+                body.set_Fx(Fx)
+                body.set_Fy(Fy)
+        return f'{body.type} Fx: {body.Fx} Fy: {body.Fy} '
+
+
+
+
+
+    
+
+
+def recalculate_space_objects_positions(space_objects, dt):
+    """Пересчитывает координаты объектов.
+
+    Параметры:
+
+    **space_objects** — список оьъектов, для которых нужно пересчитать координаты.
+
+    **dt** — шаг по времени
+    """
+    p = 0
+    s = 0
+
+    for body in space_objects:
+        body.calculate_force(space_objects)
+        if isinstance(body, Star):
+            s += 1
+            print(f' №{s} {body.move_space_object(dt)}')
+        elif isinstance(body, Planet):
+            p += 1
+            print(f' №{p} {body.move_space_object(dt)}')
+
+
+if __name__ == "__main__":
+    print("This module is not for direct call!")
+
+star1 = Star('star', 1, 1, 1, 1, 1, 1, 1, 1, 'red', None)
+planet1 = Planet('planet', 2, 1, 5, 5, 1, 4, 1, 1, 'red', None)
+planet2 = Planet('planet', 5, 4, 8, 2, 1, 7, 3, 7, 'green', None)
+space_objects = [planet1, star1, planet2]
+print(star1.move_space_object(5))
+print(planet1.move_space_object(4))
+print(planet2.calculate_force(space_objects))
+print()
+recalculate_space_objects_positions(space_objects, 7)
